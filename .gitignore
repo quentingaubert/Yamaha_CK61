@@ -222,3 +222,6 @@ __marimo__/
 # Sauvegardes des Live Sets du CK61
 backups/*
 !backups/ck61-origine-20261024.syx
+
+# macOS
+.DS_Store
