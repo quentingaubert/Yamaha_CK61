@@ -220,4 +220,5 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Sauvegardes des Live Sets du CK61
-backups/
+backups/*
+!backups/ck61-origine-20261024.syx
