@@ -141,6 +141,129 @@ PRESETS = {
             "portamento": 30,
         }],
     },
+    "velours": {
+        "name": "Velours",
+        "description": "Ballade pop : DX tine chorusé, nappe vocodeur qui respire, "
+                       "scintillement de glock une octave au-dessus.",
+        "reverb": ("Hall", 42),
+        "delay": ("Analog", 28, 72),
+        "parts": [
+            {"voice": "DX FTine", "volume": 108, "effects": [("Symphonic", 50, 40)]},
+            {
+                "voice": "VP Soft", "volume": 60, "cutoff": 50,
+                "attack": 88, "release": 92,
+                "effects": [("Auto Pan", 45, 28)],
+            },
+            {
+                "voice": "Round Glock", "volume": 34, "shift": 12, "release": 72,
+                "effects": [("Cross Delay", 40, 64)],
+            },
+        ],
+    },
+    "french-touch": {
+        "name": "French Touch",
+        "description": "Basse synthé qui glisse main gauche ; poly funky phasé + pad "
+                       "analogique flangé main droite (split C3).",
+        "split": "A/BC",
+        "split_point": "C3",
+        "reverb": ("Hall", 30),
+        "delay": ("Digital", 22, 56),
+        "parts": [
+            {
+                "voice": "Click SynBass", "volume": 115,
+                "mono": "Fingered Portamento", "portamento": 14,
+                "drive": ("Comp", 70),
+            },
+            {
+                "voice": "Funky Poly", "volume": 98, "cutoff": 70,
+                "effects": [("Small Phaser", 55, 38), ("Analog Delay", 30, 60)],
+            },
+            {
+                "voice": "Analog Pad", "volume": 52, "cutoff": 46,
+                "attack": 92, "release": 85,
+                "effects": [("VCM Flanger", 45, 20)],
+            },
+        ],
+    },
+    "retro-futur": {
+        "name": "Retro Futur",
+        "description": "Cordes analogiques très chorusées + pad à balayage : "
+                       "la nappe planante des synthés français de la fin des 70s.",
+        "reverb": ("Hall", 55),
+        "delay": ("Analog", 30, 80),
+        "parts": [
+            {
+                "voice": "Analog Str", "volume": 105, "attack": 72, "release": 88,
+                "effects": [("Symphonic", 72, 35), ("VCM Stereo Phaser", 40, 18)],
+            },
+            {"voice": "Sweep Pad 1", "volume": 62, "attack": 80, "release": 95},
+        ],
+    },
+    "cp-grand-ecran": {
+        "name": "CP Grand Ecran",
+        "description": "Piano électrique CP80 des grandes chansons 80s, cordes légères "
+                       "en fond et cristal une octave au-dessus.",
+        "reverb": ("Hall", 38),
+        "parts": [
+            {"voice": "CP80 1", "volume": 112, "effects": [("SPX Chorus", 40, 35)]},
+            {"voice": "Lite Strings1", "volume": 56, "attack": 82, "release": 85},
+            {"voice": "Soft Crystal", "volume": 30, "shift": 12, "release": 70},
+        ],
+    },
+    "annees-80": {
+        "name": "Annees 80",
+        "description": "E.Piano DX7 brillant doublé de cuivres OB : les riffs de clavier "
+                       "de la variété synthé.",
+        "reverb": ("Hall", 30),
+        "delay": ("Digital", 18, 50),
+        "parts": [
+            {"voice": "DX 7 II", "volume": 110, "effects": [("Symphonic", 45, 40)]},
+            {"voice": "OB Brass 2", "volume": 70, "cutoff": 58, "release": 60},
+        ],
+    },
+    "pluie-dor": {
+        "name": "Pluie d'Or",
+        "description": "Harpe-cloche en delay croisé + carré doux : un son de hook de "
+                       "refrain, à jouer en arpèges.",
+        "reverb": ("Hall", 40),
+        "parts": [
+            {"voice": "Bell Harp", "volume": 105, "effects": [("Cross Delay", 50, 64)]},
+            {"voice": "Soft Square", "volume": 62, "cutoff": 55, "release": 70},
+        ],
+    },
+    "solo-nacre": {
+        "name": "Solo Nacre",
+        "description": "Lead mono doux qui glisse, doublé d'un sifflet synthé à l'octave : "
+                       "pour les mélodies et les solos.",
+        "reverb": ("Hall", 35),
+        "delay": ("Analog", 40, 70),
+        "parts": [
+            {
+                "voice": "Mini Soft", "volume": 110,
+                "mono": "Fingered Portamento", "portamento": 40,
+            },
+            {
+                "voice": "Synth Whistle", "volume": 32, "shift": 12,
+                "mono": "Fingered Portamento", "portamento": 40,
+            },
+        ],
+    },
+    "grand-final": {
+        "name": "Grand Final",
+        "description": "Sub-basse sinus main gauche ; pad pop + chœur aérien main droite "
+                       "pour les fins de morceau (split C3).",
+        "split": "A/BC",
+        "split_point": "C3",
+        "reverb": ("Hall", 55),
+        "parts": [
+            {"voice": "Fat Sine", "volume": 112, "mono": "Normal"},
+            {"voice": "Pop Pad", "volume": 95, "attack": 70, "release": 90},
+            {
+                "voice": "Air Choir", "volume": 70, "attack": 80, "release": 92,
+                "effects": [("SPX Chorus", 40, 30)],
+            },
+        ],
+    },
 }
 
 MONO_TYPES = ["Normal", "Fingered Portamento", "Full-time Portamento"]

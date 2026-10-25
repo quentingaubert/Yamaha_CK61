@@ -68,6 +68,14 @@ Les fichiers `.syx` peuvent être envoyés avec n'importe quel outil SysEx
 | `strings-choir` | Cordes + chœur |
 | `clav` | Clavinet avec touch wah |
 | `lead` | Lead analogique mono, portamento, delay |
+| `velours` | DX tine chorusé + nappe vocodeur + glock à l'octave (ballade pop) |
+| `french-touch` | Basse synthé glissante / poly funky phasé + pad flangé, split C3 |
+| `retro-futur` | Cordes analogiques chorusées + pad à balayage |
+| `cp-grand-ecran` | CP80 + cordes légères + cristal à l'octave |
+| `annees-80` | E.Piano DX7 doublé de cuivres OB |
+| `pluie-dor` | Harpe-cloche en delay croisé + carré doux (hook) |
+| `solo-nacre` | Lead mono glissant + sifflet synthé à l'octave |
+| `grand-final` | Sub-basse sinus / pad pop + chœur aérien, split C3 |
 
 Pour créer un son, ajoutez une entrée dans `PRESETS` ([ck61/presets.py](ck61/presets.py)).
 Les noms de voix viennent de [ck61/voices.py](ck61/voices.py).
