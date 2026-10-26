@@ -9,6 +9,7 @@ from pathlib import Path
 from . import library as lib
 from . import sysex as sx
 from .presets import PART_LETTERS, PRESETS, build
+from .songs import ARRANGEMENTS, NOTE_NAMES_FR, SONGS, bar_events, chord_notes
 from .voices import CATEGORIES, VOICES, voice_number
 
 
@@ -208,6 +209,53 @@ def cmd_restore(args):
     print("Restauration envoyée et inscrite en mémoire flash.")
 
 
+def cmd_play(args):
+    import mido
+
+    if args.song not in SONGS:
+        sys.exit(f"Morceau inconnu : {args.song}. Disponibles : {', '.join(SONGS)}")
+    song = SONGS[args.song]
+    tempo = args.tempo or song["tempo"]
+    bar = 4 * 60 / tempo
+    channel = args.channel - 1
+    print(f"{song['title']} — {tempo} BPM")
+
+    # (instant, ordre, type, données) : à instant égal, note_off avant note_on
+    schedule, now = [], 0.0
+    for section in song["sections"]:
+        schedule.append((now, 1, "print", f"\n[{section['name']} — {section['hands']}]"))
+        for index, chord in enumerate(section["chords"]):
+            gimmick = index % 4 == 3
+            left, right = chord_notes(chord, section["hands"], song["arrangement"])
+            names = " ".join(NOTE_NAMES_FR[n % 12] for n in left + right)
+            schedule.append((now, 1, "print", f"  {chord:3} ({names}){'  + réponse ré-do-la' if gimmick else ''}"))
+            for offset, length, notes in bar_events(chord, section["hands"], bar, gimmick, song["arrangement"]):
+                schedule.append((now + offset, 2, "note_on", notes))
+                schedule.append((now + offset + length, 0, "note_off", notes))
+            now += bar
+    schedule.sort(key=lambda e: (e[0], e[1]))
+
+    with open_port(args.port) as port:
+        for message in sx.live_set_select(*ARRANGEMENTS[song["arrangement"]]["live_set"], channel):
+            port.send(mido.Message.from_bytes(message))
+        try:
+            start = time.monotonic() + 0.3
+            for moment, _, kind, data in schedule:
+                wait_until(start + moment)
+                if kind == "print":
+                    print(data, flush=True)
+                else:
+                    for note in data:
+                        port.send(mido.Message(kind, channel=channel, note=note, velocity=args.velocity))
+        finally:
+            port.send(mido.Message("control_change", channel=channel, control=123, value=0))
+
+
+def wait_until(moment):
+    while time.monotonic() < moment:
+        time.sleep(0.002)
+
+
 def cmd_export(args):
     folder = Path(args.folder)
     folder.mkdir(parents=True, exist_ok=True)
@@ -282,6 +330,14 @@ def main(argv=None):
     p.add_argument("--yes", action="store_true")
     library_options(p)
     p.set_defaults(func=cmd_restore)
+
+    p = sub.add_parser("play", help="joue une partie de clavier sur le CK pour la montrer")
+    p.add_argument("song", help=f"morceau ({', '.join(SONGS)})")
+    p.add_argument("--tempo", type=float, help="BPM (défaut : celui du morceau)")
+    p.add_argument("--channel", type=int, default=1, help="canal MIDI de réception du CK (défaut 1)")
+    p.add_argument("--velocity", type=int, default=90)
+    p.add_argument("--port", help="nom du port MIDI (par défaut : le premier contenant « CK »)")
+    p.set_defaults(func=cmd_play)
 
     p = sub.add_parser("export", help="exporte chaque preset en fichier .syx")
     p.add_argument("folder", nargs="?", default="syx")

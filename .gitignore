@@ -225,3 +225,6 @@ backups/*
 
 # macOS
 .DS_Store
+
+# Environnement d'analyse audio (hors scène)
+.venv-analyse/

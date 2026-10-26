@@ -19,10 +19,12 @@ LAYER_SPLIT_MODE = 0x16
 SPLIT_POINT = 0x18
 SPLIT_POINT_AB = 0x19
 SPLIT_POINT_BC = 0x1A
+TEMPO = 0x13  # 2 octets, BPM x 10 (42,0 à 240,0)
 DELAY_SWITCH = 0x27
 DELAY_TYPE = 0x28
 DELAY_DEPTH = 0x29
 DELAY_TIME = 0x2A
+DELAY_TEMPO_TIME = 0x2B  # valeur de note du Tempo Delay
 REVERB_SWITCH = 0x2C
 REVERB_TYPE = 0x2D
 REVERB_DEPTH = 0x2E
@@ -56,6 +58,10 @@ EFFECT2_SWITCH = 0x5D  # Type, Depth, Rate suivent le switch (+1, +2, +3)
 LAYER_SPLIT_MODES = ["ABC", "A/BC", "AB/C", "A/B/C"]
 REVERB_TYPES = ["Hall", "Room", "Plate"]
 DELAY_TYPES = ["Digital", "Analog", "Cross", "Tempo"]
+TEMPO_DELAY_TIMES = [
+    "1/32 Tri.", "1/64 Dot.", "1/32", "1/16 Tri.", "1/32 Dot.", "1/16", "1/8 Tri.",
+    "1/16 Dot.", "1/8", "1/4 Tri.", "1/8 Dot.", "1/4", "1/2 Tri.", "1/4 Dot.", "1/2",
+]
 DRIVE_TYPES = ["O.Drive", "Dist", "Rotary A", "Rotary B", "Comp"]
 VIBRATO_TYPES = ["V1", "C1", "V2", "C2", "V3", "C3"]
 EFFECT_TYPES = [

@@ -79,3 +79,18 @@ Les fichiers `.syx` peuvent être envoyés avec n'importe quel outil SysEx
 
 Pour créer un son, ajoutez une entrée dans `PRESETS` ([ck61/presets.py](ck61/presets.py)).
 Les noms de voix viennent de [ck61/voices.py](ck61/voices.py).
+
+## Accompagnements à répéter
+
+```sh
+.venv/bin/python -m ck61 play caravane            # version nappes (Live Set 16-1)
+.venv/bin/python -m ck61 play caravane-moderne    # version pop : pulsation + delay (Live Set 16-3)
+```
+
+Les parties sont décrites dans [ck61/songs.py](ck61/songs.py).
+
+## Analyse audio (hors scène)
+
+Outils d'analyse d'enregistrements dans un environnement séparé, voir
+[requirements-analyse.txt](requirements-analyse.txt). `analyse/jouer_sur_video.py` joue une
+partie sur le CK par-dessus un enregistrement et enregistre le clavier calé dessus.

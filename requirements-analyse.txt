@@ -1,0 +1,31 @@
+# Outils d'analyse audio, hors scène (à installer dans .venv-analyse, pas dans .venv) :
+#   python3 -m venv .venv-analyse && .venv-analyse/bin/pip install -r requirements-analyse.txt
+#   .venv-analyse/bin/pip install --no-build-isolation vamp
+#
+# Chordino (reconnaissance d'accords) est un plugin Vamp compilé depuis les sources
+# du Centre for Digital Music (Boost requis : brew install boost) :
+#   git clone https://github.com/c4dm/vamp-plugin-sdk.git
+#   git clone https://github.com/c4dm/nnls-chroma.git
+#   cd vamp-plugin-sdk && for f in PluginAdapter RealTime FFT; do
+#       clang++ -O2 -fPIC -arch arm64 -I. -c src/vamp-sdk/$f.cpp -o $f.o; done
+#   ar rcs libvamp-sdk.a PluginAdapter.o RealTime.o FFT.o
+#   cd ../nnls-chroma && make -f Makefile.osx ARCHFLAGS="-arch arm64 -mmacosx-version-min=11.0" \
+#       BOOST_ROOT=/opt/homebrew/include
+#   mkdir -p ../.venv-analyse/vamp && cp nnls-chroma.dylib nnls-chroma.cat nnls-chroma.n3 ../.venv-analyse/vamp/
+# puis lancer les scripts avec VAMP_PATH=.venv-analyse/vamp
+
+librosa            # analyse audio de base
+soundfile
+numpy
+scipy
+mido               # lecture/écriture de fichiers MIDI
+demucs             # séparation des instruments (voix, guitares, basse, batterie)
+beat-this          # temps et premiers temps de mesure
+basic-pitch        # transcription audio -> MIDI
+faster-whisper     # transcription des paroles
+whisperx           # paroles horodatées mot par mot
+pyloudnorm         # mesure du volume perçu (LUFS)
+pedalboard         # mixage et effets
+sounddevice        # lecture/enregistrement audio depuis Python
+music21            # théorie musicale, export de partitions
+python-rtmidi      # envoi MIDI au CK depuis les scripts d'analyse

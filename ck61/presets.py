@@ -264,6 +264,43 @@ PRESETS = {
             },
         ],
     },
+    "caravane-couplet": {
+        "name": "Caravane Nappes",
+        "description": "Pad analogique large et chaud + cordes pour les accords ; tout en "
+                       "haut du clavier, un glockenspiel avec écho pour les petites réponses.",
+        "split": "AB/C",
+        "split_point": "F#4",
+        "reverb": ("Hall", 48),
+        "parts": [
+            {
+                "voice": "Analog Pad", "volume": 104, "cutoff": 50, "attack": 70, "release": 92,
+                "effects": [("Symphonic", 55, 30)],
+            },
+            {"voice": "Warm Strings", "volume": 74, "cutoff": 52, "attack": 78, "release": 92},
+            {
+                "voice": "Round Glock", "volume": 72, "release": 70,
+                "effects": [("Cross Delay", 45, 64)],
+            },
+        ],
+    },
+    "caravane-moderne": {
+        "name": "Caravane Pop",
+        "description": "Trois zones : pluck synthé à gauche dont le delay en croche pointée "
+                       "crée un groove de doubles-croches, pad pop au milieu, cristal en haut.",
+        "split": "A/B/C",
+        "split_points": ("C3", "G4"),
+        "tempo": 100,
+        "reverb": ("Hall", 45),
+        "delay": ("Tempo", 48, "1/8 Dot."),
+        "parts": [
+            {"voice": "Funky Poly", "volume": 92, "cutoff": 58, "release": 40},
+            {
+                "voice": "Pop Pad", "volume": 98, "cutoff": 52, "attack": 72, "release": 90,
+                "effects": [("Symphonic", 50, 30)],
+            },
+            {"voice": "Soft Crystal", "volume": 78, "release": 64},
+        ],
+    },
 }
 
 MONO_TYPES = ["Normal", "Fingered Portamento", "Full-time Portamento"]
@@ -352,14 +389,22 @@ def build(preset, device=sx.DEVICE_ALL):
         ]
     messages.append(sx.common(sx.REVERB_SWITCH, 1 if reverb else 0, device))
 
+    if "tempo" in preset:
+        tempo = round(preset["tempo"] * 10)
+        messages.append(sx.common(sx.TEMPO, [tempo >> 7, tempo & 0x7F], device))
+
     delay = preset.get("delay")
     if delay:
+        # le 3e élément est un temps 0-127, ou une valeur de note pour le delay "Tempo"
         kind, depth, time = delay
         messages += [
             sx.common(sx.DELAY_TYPE, sx.DELAY_TYPES.index(kind), device),
             sx.common(sx.DELAY_DEPTH, depth, device),
-            sx.common(sx.DELAY_TIME, time, device),
         ]
+        if kind == "Tempo":
+            messages.append(sx.common(sx.DELAY_TEMPO_TIME, sx.TEMPO_DELAY_TIMES.index(time), device))
+        else:
+            messages.append(sx.common(sx.DELAY_TIME, time, device))
     messages.append(sx.common(sx.DELAY_SWITCH, 1 if delay else 0, device))
     messages.append(sx.common(sx.ROTARY_FAST, 0, device))
 
